@@ -53,7 +53,7 @@ if [ "$1" = 'mysqld' ]; then
     /usr/bin/mysql_upgrade || true
 
     echo " * Attempting repair..."
-    /usr/bin/mysqlrepair --all-databases
+    /usr/bin/mysqlrepair -u"root" -p"$MYSQL_ROOT_PASSWORD" --all-databases
 
     echo " * Shutting down..."
     time mysqladmin -u"root" shutdown
