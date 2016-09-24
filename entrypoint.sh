@@ -8,7 +8,7 @@ MYSQL_FORCE_UNLOCK="true"
 DATADIR="$(mysqld --verbose --help 2>/dev/null | awk '$1 == "datadir" { print $2; exit }')"
 
 if [ "${1:0:1}" = '-' ] || [ $# -eq 0 ]; then
-	set -- mysqld "$@"
+  set -- mysqld "$@"
 fi
 echo "ENTRYPOINT: $@"
 
@@ -37,10 +37,10 @@ if [ "$1" = 'mysqld' ]; then
 
   if [ $exit_code -ne 0 ]; then
     echo "Aborting"
-    exit $exit_code	
+    exit $exit_code
   fi
 
-	if [ -d "$DATADIR/mysql" ]; then
+  if [ -d "$DATADIR/mysql" ]; then
     echo " * Detected existing install"
     "$@" --skip-networking  --skip-grant-tables &
     mysql_pid=$!
@@ -84,10 +84,10 @@ if [ "$1" = 'mysqld' ]; then
         MYSQL_DUMP="/var/lib/mysqldump.sql";
       fi
     fi
-		
-		echo " * Initializing db in $DATADIR with $MYSQL_BOOTSTRAP_SQL..."
-		time mysqld --initialize-insecure --datadir="$DATADIR" --init-file="$MYSQL_BOOTSTRAP_SQL"
-	
+
+    echo " * Initializing db in $DATADIR with $MYSQL_BOOTSTRAP_SQL..."
+    time mysqld --initialize-insecure --datadir="$DATADIR" --init-file="$MYSQL_BOOTSTRAP_SQL"
+
     if [ -n "$MYSQL_DUMP" ]; then
       echo " * Importing $MYSQL_DUMP"
       # Start the database first in the background
@@ -105,7 +105,7 @@ if [ "$1" = 'mysqld' ]; then
       time mysqladmin -u"root" shutdown
       wait $mysql_pid
     fi
-	fi
+  fi
 fi
 
 chown -R mysql:mysql "$DATADIR"
@@ -139,7 +139,7 @@ if [ -n "$MYSQL_INIT_SQL" ]; then
   fi
 
   echo 'FLUSH PRIVILEGES ;' >> "$MYSQL_INIT_SQL"
-	set -- "$@" --init-file="$MYSQL_INIT_SQL"
+    set -- "$@" --init-file="$MYSQL_INIT_SQL"
 fi
 
 if [ -n "$MYSQL_CLIENT_CNF" ]; then
